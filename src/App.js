@@ -50,8 +50,8 @@ class App extends React.Component {
               this.props.currentUser ? (
                 <Redirect to='/' />
               ) : (
-                <SignInAndSignUp />
-              )
+                  <SignInAndSignUp />
+                )
             }
           />
         </Switch>
