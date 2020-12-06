@@ -11,12 +11,9 @@ import { setCurrentUser } from './redux/user/user.actions';
 
 
 class App extends React.Component {
-
-
   unsubscribeFromAuth = null;
 
   componentDidMount() {
-
     const { setCurrentUser } = this.props;
 
     this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
@@ -25,15 +22,13 @@ class App extends React.Component {
 
         userRef.onSnapshot(snapShot => {
           setCurrentUser({
-            currentUser: {
-              id: snapShot.id,
-              ...snapShot.data()
-            }
+            id: snapShot.id,
+            ...snapShot.data()
           });
         });
       }
 
-      this.setState({ currentUser: userAuth });
+      setCurrentUser(userAuth);
     });
   }
 
@@ -41,14 +36,13 @@ class App extends React.Component {
     this.unsubscribeFromAuth();
   }
 
-
   render() {
     return (
-      <div className="App">
-        <Header currentUser={this.state.currentUser} />
+      <div>
+        <Header />
         <Switch>
-          <Route exact path="/" component={HomePage} />
-          <Route path="/shop" component={ShopPage} />
+          <Route exact path='/' component={HomePage} />
+          <Route path='/shop' component={ShopPage} />
           <Route
             exact
             path='/signin'
@@ -56,8 +50,8 @@ class App extends React.Component {
               this.props.currentUser ? (
                 <Redirect to='/' />
               ) : (
-                  <SignInAndSignUp />
-                )
+                <SignInAndSignUp />
+              )
             }
           />
         </Switch>
@@ -75,7 +69,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 export default connect(
-  null,
-  mapDispatchToProps,
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(App);
